@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Question Bank — English Practice</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f5f9;color:#172033;font-family:Arial,Helvetica,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+header{height:64px;background:#fff;border-bottom:1px solid #e3e6ec;display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:sticky;top:0;z-index:10}
+.logo{font-size:23px;font-weight:900}.logo span{color:#4f46e5}.top-actions{display:flex;gap:8px}
+.btn{border:1px solid #d5dbe5;background:#fff;padding:10px 13px;border-radius:10px;font-weight:700}
+.btn:hover{background:#f5f6fa}.primary{border:0;background:#4f46e5;color:#fff}.primary:hover{background:#4338ca}.danger{color:#b42318}
+main{max-width:1180px;margin:22px auto;padding:0 14px}
+.card{background:#fff;border:1px solid #e0e4eb;border-radius:18px;box-shadow:0 8px 25px #10182810}
+.hero{padding:25px;margin-bottom:15px;background:linear-gradient(135deg,#eef0ff,#fff)}
+.hero h1{margin:0 0 6px;font-size:28px}.muted{color:#667085}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:15px}
+.stat{padding:18px}.stat b{display:block;font-size:25px;margin-top:5px}.stat span{font-size:13px;color:#667085}
+.toolbar{padding:14px;margin-bottom:15px;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr auto;gap:9px}
+input,select,textarea{width:100%;border:1px solid #d5dbe5;border-radius:10px;padding:11px;background:#fff;color:#172033}
+textarea{min-height:100px;resize:vertical}
+.tabs{display:flex;gap:7px;overflow:auto;padding-bottom:10px}.tab{white-space:nowrap}
+.tab.active{background:#eef0ff;border-color:#8588f5;color:#4038b8}
+.list{display:grid;gap:10px}.row{padding:16px;display:grid;grid-template-columns:1fr auto;gap:14px}
+.row h3{margin:0 0 7px;font-size:16px}.meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px}
+.badge{display:inline-block;padding:4px 8px;border-radius:99px;background:#f0f2f6;color:#475467;font-size:11px;font-weight:800}
+.badge.type{background:#eef0ff;color:#4038b8}.badge.level{background:#edf7ee;color:#087b35}
+.preview{color:#475467;line-height:1.55;white-space:pre-wrap}.row-actions{display:flex;gap:7px;align-items:flex-start}
+.empty{text-align:center;padding:40px;color:#667085}
+.modal{position:fixed;inset:0;background:#10182899;display:none;align-items:center;justify-content:center;padding:15px;z-index:20}
+.modal.show{display:flex}.dialog{background:#fff;width:min(850px,100%);max-height:92vh;overflow:auto;border-radius:20px;padding:22px}
+.dialog h2{margin-top:0}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{margin-bottom:12px}.field label{display:block;font-weight:800;margin-bottom:6px;font-size:13px}
+.full{grid-column:1/-1}.parts{display:grid;gap:8px}.partline{display:grid;grid-template-columns:45px 1fr;gap:7px;align-items:center}.partlabel{font-weight:900;text-align:center}
+.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}
+.help{padding:13px;background:#f7f8fa;border-radius:10px;font-size:13px;line-height:1.55;margin-bottom:14px}
+.tableinfo{padding:12px 15px;color:#667085;font-size:13px}
+#importFile{display:none}
+/* Ô ảnh riêng, giống một khung nhập liệu độc lập */
+.image-paste-box{margin-top:8px;min-height:180px;border:1px solid #d5dbe5;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;color:#667085;outline:none;transition:border-color .18s,box-shadow .18s,background .18s;overflow:hidden}
+.image-paste-box:focus,.image-paste-box:hover{border-color:#8588f5;box-shadow:0 0 0 3px #4f46e51a}
+.image-paste-box.has-image{display:block;text-align:left;padding:10px;background:#fafbff}
+.image-paste-empty{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.image-paste-icon{font-size:32px;line-height:1;margin-bottom:4px}.image-paste-title{font-size:15px;font-weight:800;color:#172033}.image-paste-hint,.image-paste-or{font-size:12px;color:#667085}.image-paste-or{margin-top:2px}.image-select-btn{margin-top:5px}
+.image-preview{width:100%}.image-preview img{display:block;max-width:100%;max-height:360px;margin:0 auto;border-radius:10px;border:1px solid #e0e4eb;object-fit:contain;background:#fff}
+.image-preview-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px}.image-preview-actions .muted{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.image-status{min-height:18px;margin-top:8px;font-size:12px}.image-analyze-btn{margin-top:2px}
+@media(max-width:520px){.image-paste-box{min-height:160px}.image-preview-actions{align-items:flex-start;flex-direction:column}}
+
+@media(max-width:800px){
+ header{padding:0 13px}.top-actions .hide-mobile{display:none}
+ .stats{grid-template-columns:1fr 1fr}
+ .toolbar{grid-template-columns:1fr 1fr}.toolbar .search{grid-column:1/-1}
+ .row{grid-template-columns:1fr}.row-actions{justify-content:flex-end}
+}
+@media(max-width:520px){
+ .stats{grid-template-columns:1fr 1fr}.formgrid{grid-template-columns:1fr}
+ .full{grid-column:auto}.toolbar{grid-template-columns:1fr}
+ .toolbar .search{grid-column:auto}
+ .hero h1{font-size:24px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">English<span>Practice</span> <small style="font-size:12px;color:#667085">/ Bank</small></div>
+  <div class="top-actions">
+    <button class="btn" id="importBtn">⬆ Nhập dữ liệu</button>
+    <button class="btn" id="exportBtn">⬇ Sao lưu</button>
+    <button class="btn primary" id="addBtn">＋ Thêm câu</button>
+  </div>
+</header>
+
+<main>
+<section class="hero card">
+  <h1>📚 Ngân hàng câu hỏi</h1>
+  <div class="muted">Quản lý, tra cứu và cập nhật câu hỏi cho <b>index4</b>. Dữ liệu được lưu bằng IndexedDB — phù hợp với ngân hàng lớn hơn localStorage.</div>
+</section>
+
+<section class="stats">
+  <div class="stat card"><span>Tổng câu</span><b id="total">0</b></div>
+  <div class="stat card"><span>Tìm lỗi sai</span><b id="errorTotal">0</b></div>
+  <div class="stat card"><span>Sắp xếp</span><b id="sortTotal">0</b></div>
+  <div class="stat card"><span>Độ khó</span><b id="levelTotal">0</b></div>
+</section>
+
+<section class="card" style="padding:15px">
+  <div class="tabs">
+    <button class="btn tab active" data-type="all">Tất cả</button>
+    <button class="btn tab" data-type="error">🔎 Tìm lỗi sai</button>
+    <button class="btn tab" data-type="sort">🧩 Sắp xếp</button>
+  </div>
+  <div class="toolbar">
+    <input class="search" id="search" placeholder="🔍 Tìm câu, ID, chủ đề, nguồn...">
+    <select id="level"><option value="">Tất cả độ khó</option><option>A1</option><option>A2</option><option>B1</option><option>B2</option><option>C1</option></select>
+    <select id="topic"><option value="">Tất cả chủ đề</option></select>
+    <select id="status"><option value="">Tất cả trạng thái</option><option value="active">Đang dùng</option><option value="inactive">Tạm ẩn</option></select>
+    <button class="btn" id="clearFilter">Xóa lọc</button>
+  </div>
+  <div class="tableinfo" id="countInfo">Đang tải...</div>
+  <div id="list" class="list"></div>
+</section>
+</main>
+
+<input type="file" id="importFile" accept=".json,application/json">
+
+<div class="modal" id="modal">
+<div class="dialog">
+  <h2 id="modalTitle">Thêm câu hỏi</h2>
+  <div class="help">
+    <b>Gợi ý:</b> lưu câu hỏi, đáp án, giải thích và nguồn ở đây. Không nhúng cả bài báo vào database — chỉ lưu <b>URL + tên nguồn</b> để tiết kiệm dung lượng.
+  </div>
+  <div class="help" style="margin-top:12px">
+    <b>📷 Thêm bằng ảnh chụp màn hình:</b> tải ảnh câu hỏi lên. Hệ thống sẽ đọc chữ, cố gắng giữ nguyên nội dung câu hỏi/phương án, tự nhận diện loại bài và ước tính độ khó. Bạn kiểm tra lại trước khi lưu.
+  </div>
+  <div class="field full" style="padding:14px;border:1px dashed #c7cbd6;border-radius:12px;background:#fafbff">
+    <label>Ảnh chụp màn hình</label>
+    <div id="pasteImageBox" class="image-paste-box" tabindex="0" role="button" aria-label="Khu vực dán ảnh">
+      <div class="image-paste-empty" id="imagePasteEmpty">
+        <div class="image-paste-icon">🖼️</div>
+        <div class="image-paste-title">Dán ảnh vào đây</div>
+        <div class="image-paste-hint">Nhấn <b>Ctrl + V</b> để dán ảnh chụp màn hình</div>
+        <div class="image-paste-or">hoặc</div>
+        <button type="button" class="btn image-select-btn" id="selectImageBtn">📎 Chọn ảnh từ máy</button>
+      </div>
+      <div id="imagePreview" class="image-preview" style="display:none">
+        <img id="previewImg" alt="Ảnh đã dán">
+        <div class="image-preview-actions">
+          <span id="imageName" class="muted"></span>
+          <button type="button" class="btn" id="removeImageBtn">✕ Xóa ảnh</button>
+        </div>
+      </div>
+    </div>
+    <input id="screenshotInput" type="file" accept="image/*" hidden>
+    <div id="ocrStatus" class="muted image-status"></div>
+    <button type="button" class="btn primary image-analyze-btn" id="analyzeImageBtn">🔎 Đọc ảnh & phân tích</button>
+  </div>
+  <form id="form">
+    <input type="hidden" id="editId">
+    <div class="formgrid">
+      <div class="field"><label>Loại bài</label><select id="fType"><option value="error">🔎 Tìm lỗi sai</option><option value="sort">🧩 Sắp xếp</option></select></div>
+      <div class="field"><label>Độ khó</label><select id="fLevel"><option>A1</option><option>A2</option><option>B1</option><option>B2</option><option>C1</option></select></div>
+      <div class="field"><label>Chủ đề</label><input id="fTopic" list="topicList" required placeholder="Ví dụ: Công nghệ"></div>
+      <div class="field"><label>Nguồn</label><input id="fSource" placeholder="Ví dụ: Reuters"></div>
+      <div class="field full"><label>Link nguồn</label><input id="fUrl" type="url" placeholder="https://..."></div>
+      <div class="field full" id="errorFields">
+        <label>Đề bài / Câu hỏi</label>
+        <textarea id="fQuestion" rows="3" placeholder="Nhập nguyên câu hỏi hoặc câu cần tìm lỗi sai..."></textarea>
+        <label style="margin-top:12px">4 phần đáp án — A, B, C, D</label>
+        <div class="parts" id="errorParts"></div>
+        <label style="margin-top:10px">Đáp án</label>
+        <select id="fAnswer"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select>
+      </div>
+      <div class="field full" id="sortFields" style="display:none">
+        <label>Các phần theo thứ tự ĐÚNG</label>
+        <div class="parts" id="sortParts"></div>
+      </div>
+      <div class="field full"><label>Giải thích tiếng Việt</label><textarea id="fExplain" placeholder="Giải thích vì sao đáp án đúng..."></textarea></div>
+      <div class="field"><label>Trạng thái</label><select id="fActive"><option value="1">Đang dùng</option><option value="0">Tạm ẩn</option></select></div>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn" id="cancel">Hủy</button>
+      <button class="btn primary" type="submit">💾 Lưu câu hỏi</button>
+    </div>
+  </form>
+</div>
+</div>
+
+<datalist id="topicList"></datalist>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script>
+"use strict";
+
+const DB_NAME="EnglishPracticeQuestionBank";
+const DB_VERSION=1;
+const STORE="questions";
+let db=null;
+let currentType="all";
+let cache=[];
+let editing=null;
+
+const DEFAULT_TOPICS=["Văn phòng & Công việc","Thời sự & Tin tức","Thiên nhiên & Môi trường","Khoa học","Công nghệ","Kinh tế","Giáo dục","Sức khỏe","Du lịch","Xã hội","Văn hóa & Giải trí","Đời sống","Thể thao","Năng lượng","Giao thông","Quốc tế"];
+
+const $=id=>document.getElementById(id);
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
+
+function openDB(){
+ return new Promise((resolve,reject)=>{
+  const req=indexedDB.open(DB_NAME,DB_VERSION);
+  req.onupgradeneeded=e=>{
+   const d=e.target.result;
+   if(!d.objectStoreNames.contains(STORE)){
+    const s=d.createObjectStore(STORE,{keyPath:"id"});
+    s.createIndex("type","type");s.createIndex("level","level");s.createIndex("topic","topic");s.createIndex("active","active");
+   }
+  };
+  req.onsuccess=e=>{db=e.target.result;resolve(db)};
+  req.onerror=()=>reject(req.error);
+ });
+}
+function tx(mode="readonly"){return db.transaction(STORE,mode).objectStore(STORE)}
+function getAll(){return new Promise((resolve,reject)=>{const r=tx().getAll();r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+function put(q){return new Promise((resolve,reject)=>{const r=tx("readwrite").put(q);r.onsuccess=()=>resolve();r.onerror=()=>reject(r.error)})}
+function remove(id){return new Promise((resolve,reject)=>{const r=tx("readwrite").delete(id);r.onsuccess=()=>resolve();r.onerror=()=>reject(r.error)})}
+
+function uid(){
+ return "q_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8);
+}
+
+function seedIfEmpty(){
+ if(cache.length)return Promise.resolve();
+ const samples=[
+  {id:"demo-e001",type:"error",level:"A1",topic:"Đời sống",parts:["She","go","to school","every day."],answer:1,explain:"Với She ở hiện tại đơn, dùng goes.",source:"British Council LearnEnglish",url:"https://learnenglish.britishcouncil.org/grammar",active:1},
+  {id:"demo-e002",type:"error",level:"B1",topic:"Công nghệ",parts:["The company","have announced","a new update","today."],answer:1,explain:"The company là số ít nên dùng has announced.",source:"The Verge",url:"https://www.theverge.com/tech",active:1},
+  {id:"demo-s001",type:"sort",level:"A2",topic:"Du lịch",parts:["We arrived at the station.","We bought our tickets.","We found the platform.","We got on the train."],explain:"Trình tự diễn biến của chuyến tàu.",source:"BBC Travel",url:"https://www.bbc.com/travel",active:1},
+  {id:"demo-s002",type:"sort",level:"B2",topic:"Khoa học",parts:["Researchers collected samples.","The samples were taken to a laboratory.","Scientists analyzed the samples.","The results were published."],explain:"Thu thập → đưa vào phòng thí nghiệm → phân tích → công bố.",source:"National Geographic",url:"https://www.nationalgeographic.com/science/",active:1}
+ ];
+ return Promise.all(samples.map(put));
+}
+
+function renderStats(){
+ const all=cache;
+ $("total").textContent=all.length;
+ $("errorTotal").textContent=all.filter(q=>q.type==="error").length;
+ $("sortTotal").textContent=all.filter(q=>q.type==="sort").length;
+ $("levelTotal").textContent=new Set(all.map(q=>q.level)).size;
+ const topics=[...new Set([...DEFAULT_TOPICS,...all.map(q=>q.topic).filter(Boolean)])].sort();
+ $("topic").innerHTML='<option value="">Tất cả chủ đề</option>'+topics.map(t=>`<option>${esc(t)}</option>`).join("");
+ $("topicList").innerHTML=topics.map(t=>`<option value="${esc(t)}">`).join("");
+}
+
+function filtered(){
+ const s=$("search").value.trim().toLowerCase(),lv=$("level").value,tp=$("topic").value,st=$("status").value;
+ return cache.filter(q=>{
+  if(currentType!=="all"&&q.type!==currentType)return false;
+  if(lv&&q.level!==lv)return false;
+  if(tp&&q.topic!==tp)return false;
+  if(st&&String(q.active)!==(st==="active"?"1":"0"))return false;
+  if(s){
+   const hay=[q.id,q.topic,q.source,q.url,q.explain,...(q.parts||[])].join(" ").toLowerCase();
+   if(!hay.includes(s))return false;
+  }
+  return true;
+ });
+}
+
+function render(){
+ renderStats();
+ const data=filtered();
+ $("countInfo").textContent=`Hiển thị ${data.length} / ${cache.length} câu`;
+ if(!data.length){$("list").innerHTML='<div class="empty">Không tìm thấy câu hỏi phù hợp.</div>';return}
+ $("list").innerHTML=data.map(q=>{
+  const type=q.type==="error"?"🔎 Tìm lỗi sai":"🧩 Sắp xếp";
+  const preview=q.type==="error"
+    ? [q.question||"", ...(q.parts||[])].filter(Boolean).join(" / ")
+    : (q.parts||[]).join(" → ");
+  return `<article class="row card">
+   <div>
+    <div class="meta"><span class="badge type">${type}</span><span class="badge level">${esc(q.level)}</span><span class="badge">${esc(q.topic)}</span><span class="badge">${q.active?"Đang dùng":"Tạm ẩn"}</span></div>
+    <h3>${esc(q.id)}</h3>
+    <div class="preview">${esc(preview)}</div>
+    <div class="muted" style="font-size:12px;margin-top:8px">Nguồn: ${esc(q.source||"Chưa nhập")} ${q.url?"• Có link":""}</div>
+   </div>
+   <div class="row-actions">
+    <button class="btn" data-edit="${esc(q.id)}">✏️ Sửa</button>
+    <button class="btn danger" data-del="${esc(q.id)}">🗑️ Xóa</button>
+   </div>
+  </article>`;
+ }).join("");
+ document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editQuestion(b.dataset.edit));
+ document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>deleteQuestion(b.dataset.del));
+}
+
+function makeParts(container,n,values=[]){
+ const labels="ABCDEF";
+ $(container).innerHTML=Array.from({length:n},(_,i)=>`<div class="partline"><div class="partlabel">${labels[i]}</div><input class="partInput" data-index="${i}" value="${esc(values[i]||"")}" placeholder="Nhập phần ${labels[i]}"></div>`).join("");
+}
+
+function toggleForm(){
+ const isError=$("fType").value==="error";
+ $("errorFields").style.display=isError?"block":"none";
+ $("sortFields").style.display=isError?"none":"block";
+}
+
+
+let screenshotImageData=null;
+
+function loadScreenshotBlob(blob){
+  if(!blob || !blob.type.startsWith("image/"))return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    screenshotImageData=ev.target.result;
+    $("previewImg").src=screenshotImageData;
+    $("imagePreview").style.display="block";
+    $("imagePasteEmpty").style.display="none";
+    $("pasteImageBox").classList.add("has-image");
+    $("imageName").textContent=blob.name || "Ảnh đã dán từ clipboard";
+    $("ocrStatus").textContent="✅ Đã nhận ảnh. Bạn có thể bấm “Đọc ảnh & phân tích”.";
+  };
+  reader.readAsDataURL(blob);
+}
+
+$("pasteImageBox").addEventListener("paste",e=>{
+  const items=[...(e.clipboardData?.items||[])];
+  const imageItem=items.find(item=>item.type.startsWith("image/"));
+  if(imageItem){e.preventDefault();loadScreenshotBlob(imageItem.getAsFile());}
+  else $("ocrStatus").textContent="Clipboard chưa có ảnh. Hãy chụp màn hình rồi Ctrl + V.";
+});
+$("pasteImageBox").addEventListener("click",e=>{if(!e.target.closest("button")&&!$("imagePreview").contains(e.target))$("screenshotInput").click()});
+$("selectImageBtn").onclick=()=>$("screenshotInput").click();
+$("screenshotInput").onchange=e=>{const file=e.target.files[0];if(file)loadScreenshotBlob(file);e.target.value=""};
+$("removeImageBtn").onclick=()=>{screenshotImageData=null;$("previewImg").src="";$("imagePreview").style.display="none";$("imagePasteEmpty").style.display="flex";$("pasteImageBox").classList.remove("has-image");$("imageName").textContent="";$("ocrStatus").textContent=""};
+// Cho phép Ctrl+V ảnh ngay cả khi đang ở ô nhập văn bản khác trong form.
+document.addEventListener("paste",e=>{if($("modal").classList.contains("show")){const items=[...(e.clipboardData?.items||[])];const imageItem=items.find(item=>item.type.startsWith("image/"));if(imageItem&&!$("pasteImageBox").contains(document.activeElement)){e.preventDefault();loadScreenshotBlob(imageItem.getAsFile())}}});
+
+function estimateLevel(text){
+  const t=text.toLowerCase(), words=(t.match(/[a-z]+/g)||[]);
+  let score=0;
+  if(/\b(had been|would have|conditional|passive|relative clause|reported speech|inversion|subjunctive|perfect)\b/.test(t))score+=3;
+  if(/\b(although|whereas|nevertheless|despite|unless|provided that|however)\b/.test(t))score+=2;
+  if(words.length>25)score++;
+  if(words.length>40)score++;
+  return score>=5?"C1":score>=3?"B2":score>=2?"B1":words.length>12?"A2":"A1";
+}
+
+function detectType(text){
+  const t=text.toLowerCase();
+  return /sắp xếp|arrange|rearrange|put .* order/.test(t)?"sort":"error";
+}
+
+function extractLabeledParts(text){
+  const lines=text.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+  const out=[];
+  for(const line of lines){
+    const m=line.match(/^(?:[A-F]|\d+)[\s\.\):\-]+(.+)$/i);
+    if(m)out.push(m[1].trim());
+  }
+  return out;
+}
+
+// Tách riêng đề bài và 4 phần A/B/C/D cho dạng "Tìm lỗi sai".
+function normalizeOcrText(text){
+  return String(text||"")
+    .replace(/\r/g,"")
+    .replace(/[ \t]+/g," ")
+    .split("\n")
+    .map(x=>x.trim())
+    .filter(Boolean)
+    .join("\n");
+}
+
+// Tách đề + A/B/C/D. Ưu tiên các nhãn A/B/C/D thật sự của OCR,
+// không để các nhãn này rơi vào ô Đề bài.
+function extractErrorQuestionAndParts(text, ocrWords=[]){
+  const clean=normalizeOcrText(text);
+  const lines=clean.split("\n").map(x=>x.trim()).filter(Boolean);
+  const parts={A:"",B:"",C:"",D:""};
+  let question="";
+
+  // 1) Dạng: A. xxx / B. xxx / C. xxx / D. xxx
+  const labelLine=/^([ABCD])\s*[\.\):\-]\s*(.*)$/i;
+  const found=[];
+  lines.forEach((line,i)=>{
+    const m=line.match(labelLine);
+    if(m) found.push({label:m[1].toUpperCase(),value:m[2].trim(),index:i});
+  });
+  if(found.length>=2){
+    const first=found[0].index;
+    question=lines.slice(0,first).join(" ").trim();
+    found.forEach(x=>{if(x.value) parts[x.label]=x.value;});
+    // Nếu một phương án bị xuống dòng, nối phần chữ trước nhãn tiếp theo.
+    for(let i=first;i<lines.length;i++){
+      if(labelLine.test(lines[i])) continue;
+    }
+    return {question,parts:[parts.A,parts.B,parts.C,parts.D]};
+  }
+
+  // 2) Dạng OCR đưa A/B/C/D trên cùng dòng.
+  const inline=/\bA\s*[\.\):\-]\s*(.*?)\s+\bB\s*[\.\):\-]\s*(.*?)\s+\bC\s*[\.\):\-]\s*(.*?)\s+\bD\s*[\.\):\-]\s*(.*)$/i;
+  const im=clean.replace(/\n/g," ").match(inline);
+  if(im){
+    question=clean.replace(/\n/g," ").slice(0,im.index).trim();
+    parts.A=im[1].trim(); parts.B=im[2].trim(); parts.C=im[3].trim(); parts.D=im[4].trim();
+    return {question,parts:[parts.A,parts.B,parts.C,parts.D]};
+  }
+
+  // 3) OCR thường gặp với đề tìm lỗi sai: A/B/C/D là các nhãn đứng riêng,
+  // còn nội dung câu nằm cùng dòng nhưng OCR làm mất cấu trúc. Khi có bbox,
+  // dùng vị trí ngang của nhãn để không đưa "A B C D" vào ô Đề bài.
+  const words=(ocrWords||[]).filter(w=>w && w.text && w.bbox && String(w.text).trim());
+  const labelWords=words.filter(w=>/^[ABCD]$/i.test(String(w.text).trim()) && Number(w.confidence??w.conf??0)>=20);
+  const unique=[];
+  for(const w of labelWords){
+    const l=String(w.text).trim().toUpperCase();
+    if(!unique.some(x=>x.label===l && Math.abs(x.x-(w.bbox.x0+w.bbox.x1)/2)<20)){
+      unique.push({label:l,x:(w.bbox.x0+w.bbox.x1)/2,y:(w.bbox.y0+w.bbox.y1)/2,w});
+    }
+  }
+  const labels=["A","B","C","D"].map(l=>unique.find(x=>x.label===l)).filter(Boolean);
+
+  if(labels.length>=3 && words.length){
+    const nonLabels=words.filter(w=>!labels.some(l=>l.w===w));
+    const ordered=labels.slice().sort((a,b)=>a.x-b.x);
+    const xs=ordered.map(l=>l.x);
+
+    // Nhiều đề "tìm lỗi sai" in A/B/C/D bên dưới đoạn gạch chân.
+    // Khi đó OCR thường trả A B C ở một dòng riêng. Dùng vị trí X của nhãn
+    // để gom các từ gần nhãn; với nhãn nằm dưới đoạn gạch, lấy các từ nằm
+    // trước nhãn theo trục X.
+    const groups={A:[],B:[],C:[],D:[]};
+    for(const w of nonLabels){
+      const x=(w.bbox.x0+w.bbox.x1)/2;
+      let best=0,dist=Infinity;
+      xs.forEach((lx,i)=>{const d=Math.abs(x-lx);if(d<dist){dist=d;best=i;}});
+      const label=ordered[best].label;
+      groups[label].push(w);
+    }
+
+    // Nếu gom theo khoảng cách X tạo được nội dung ở cả 4 phần thì dùng luôn.
+    const grouped=["A","B","C","D"].map(l=>groups[l].sort((a,b)=>a.bbox.y0-b.bbox.y0 || a.bbox.x0-b.bbox.x0)
+      .map(w=>String(w.text).trim()).filter(Boolean).join(" ").trim());
+
+    // Tách phần mở đầu câu (Câu 36: Mathematics,) khỏi 4 đoạn gạch.
+    const allWords=nonLabels.slice().sort((a,b)=>a.bbox.y0-b.bbox.y0 || a.bbox.x0-b.bbox.x0);
+    let allText=allWords.map(w=>String(w.text).trim()).filter(Boolean).join(" ");
+    allText=allText.replace(/\s+([,.;!?])/g,"$1");
+
+    const qMatch=allText.match(/^((?:Câu|Cau|Question|Q)\s*\d+\s*:\s*[^,.;!?]+[,.;!?])/i);
+    question=qMatch ? qMatch[1].trim() : "";
+
+    // Nếu A-D được nhận diện rõ theo vị trí, tự điền vào 4 ô.
+    if(grouped.filter(Boolean).length>=3){
+      // Với dạng nhãn đặt dưới đoạn gạch, nhóm theo X có thể chứa cả phần đầu.
+      // Loại số câu + phần mở đầu khỏi A nếu bị OCR gom nhầm.
+      if(question && grouped[0]){
+        const qTail=question.replace(/^(?:Câu|Cau|Question|Q)\s*\d+\s*:\s*/i,"").trim();
+        grouped[0]=grouped[0].replace(new RegExp("^"+qTail.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\s*[,.;:]*\s*","i"),"").trim();
+      }
+      return {question:question||allText,parts:grouped};
+    }
+  }
+
+  // 4) Fallback an toàn: chỉ làm sạch nhãn A/B/C/D khỏi ô Đề bài.
+  question=clean.replace(/(^|\s)[ABCD](?=\s|$)/gi," ").replace(/\s+/g," ").trim();
+  return {question,parts:["","","",""]};
+}
+
+
+$("analyzeImageBtn").onclick=async()=>{
+  if(!screenshotImageData){alert("Hãy chọn ảnh trước.");return}
+  if(!window.Tesseract){alert("Không tải được OCR. Hãy mở lại file khi có Internet.");return}
+  $("ocrStatus").textContent="⏳ Đang đọc ảnh...";
+  try{
+    const r=await Tesseract.recognize(screenshotImageData,"eng",{
+      config:{
+        tessedit_pageseg_mode:"6",
+        preserve_interword_spaces:"1"
+      },
+      logger:m=>{
+        if(m.status==="recognizing text")
+          $("ocrStatus").textContent="⏳ Đang đọc: "+Math.round((m.progress||0)*100)+"%";
+      }
+    });
+    const text=(r.data.text||"").trim();
+    if(!text){$("ocrStatus").textContent="Không đọc được chữ trong ảnh.";return}
+
+    const type=detectType(text);
+    $("fType").value=type;
+    $("fLevel").value=estimateLevel(text);
+    const parts=extractLabeledParts(text);
+
+    if(type==="error"){
+      const parsed=extractErrorQuestionAndParts(text,r.data.words||[]);
+      $("fQuestion").value=parsed.question;
+      makeParts("errorParts",4,parsed.parts);
+    }else{
+      makeParts("sortParts",6,parts.slice(0,6));
+      document.querySelectorAll("#sortParts .partline").forEach((el,i)=>{
+        el.style.display=i<Math.max(4,parts.length)?"grid":"none";
+      });
+    }
+    toggleForm();
+    $("ocrStatus").textContent=`✅ Đã đọc xong — độ khó ước tính ${$("fLevel").value}. Nội dung đã được điền để bạn kiểm tra.`;
+  }catch(e){
+    console.error(e);
+    $("ocrStatus").textContent="❌ Lỗi OCR: "+e.message;
+  }
+};
+
+function openForm(q=null){
+ editing=q;
+ $("modalTitle").textContent=q?"✏️ Sửa câu hỏi":"➕ Thêm câu hỏi";
+ $("editId").value=q?.id||"";
+ $("fType").value=q?.type||"error";
+ $("fLevel").value=q?.level||"B1";
+ $("fTopic").value=q?.topic||"";
+ $("fSource").value=q?.source||"";
+ $("fUrl").value=q?.url||"";
+ $("fExplain").value=q?.explain||"";
+ $("fQuestion").value=q?.question||"";
+ $("fActive").value=q?.active===0?"0":"1";
+ $("fAnswer").value=String(q?.answer??0);
+ toggleForm();
+ makeParts("errorParts",4,q?.type==="error"?q.parts:[]);
+ makeParts("sortParts",6,q?.type==="sort"?q.parts:[]);
+ if(q?.type==="sort"){
+  // chỉ hiện số phần đang có
+  document.querySelectorAll("#sortParts .partline").forEach((el,i)=>el.style.display=i<(q.parts?.length||4)?"grid":"none");
+ }
+ $("modal").classList.add("show");
+}
+
+function closeForm(){
+  $("modal").classList.remove("show");editing=null;
+  screenshotImageData=null;
+  $("screenshotInput").value="";
+  $("imagePreview").style.display="none";
+  $("ocrStatus").textContent="";
+}
+
+$("fType").onchange=()=>{toggleForm();makeParts("errorParts",4);makeParts("sortParts",6)};
+
+$("form").onsubmit=async e=>{
+ e.preventDefault();
+ const type=$("fType").value;
+ let parts=[...document.querySelectorAll(type==="error"?"#errorParts .partInput":"#sortParts .partInput")].map(x=>x.value.trim()).filter(Boolean);
+ if(type==="error"&&parts.length!==4){alert("Tìm lỗi sai cần đủ 4 phần A, B, C, D.");return}
+ if(type==="sort"&&(parts.length<4||parts.length>6)){alert("Sắp xếp cần từ 4 đến 6 phần.");return}
+ const q={
+  id:$("editId").value||uid(),
+  type,level:$("fLevel").value,topic:$("fTopic").value.trim(),
+  source:$("fSource").value.trim(),url:$("fUrl").value.trim(),
+  question:type==="error"?$("fQuestion").value.trim():"",
+  explain:$("fExplain").value.trim(),active:Number($("fActive").value),parts,
+  updatedAt:new Date().toISOString()
+ };
+ if(!q.topic){alert("Hãy nhập chủ đề.");return}
+ if(type==="error")q.answer=Number($("fAnswer").value);
+ await put(q);closeForm();await refresh();
+};
+
+async function editQuestion(id){const q=cache.find(x=>x.id===id);if(q)openForm(q)}
+async function deleteQuestion(id){
+ if(!confirm("Xóa câu hỏi này? Hành động này không thể hoàn tác."))return;
+ await remove(id);await refresh();
+}
+
+async function refresh(){cache=await getAll();render()}
+
+$("addBtn").onclick=()=>openForm();
+$("cancel").onclick=closeForm;
+$("modal").onclick=e=>{if(e.target.id==="modal")closeForm()};
+$("search").oninput=render;$("level").onchange=render;$("topic").onchange=render;$("status").onchange=render;
+$("clearFilter").onclick=()=>{$("search").value="";$("level").value="";$("topic").value="";$("status").value="";render()};
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");currentType=b.dataset.type;render()});
+
+$("exportBtn").onclick=()=>{
+ const blob=new Blob([JSON.stringify(cache,null,2)],{type:"application/json"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="question-bank-backup.json";a.click();URL.revokeObjectURL(a.href);
+};
+
+$("importBtn").onclick=()=>$("importFile").click();
+$("importFile").onchange=async e=>{
+ const file=e.target.files[0];if(!file)return;
+ try{
+  const data=JSON.parse(await file.text());
+  if(!Array.isArray(data))throw new Error("JSON phải là một mảng câu hỏi.");
+  for(const q of data){
+   if(!q.id)q.id=uid();
+   q.active=q.active===0?0:1;
+   await put(q);
+  }
+  alert(`Đã nhập ${data.length} câu.`);
+  await refresh();
+ }catch(err){alert("Không thể nhập file JSON: "+err.message)}
+ e.target.value="";
+};
+
+(async()=>{
+ try{
+  await openDB();
+  cache=await getAll();
+  if(!cache.length){await seedIfEmpty();}
+  await refresh();
+ }catch(e){
+  console.error(e);
+  $("list").innerHTML='<div class="empty">Trình duyệt không hỗ trợ IndexedDB hoặc dữ liệu không thể mở. Hãy dùng Chrome/Edge/Firefox mới.</div>';
+ }
+})();
+</script>
+</body>
+</html>
